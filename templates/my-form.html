@@ -1,0 +1,91 @@
+<script>window.StopWhateverBelow()</script>
+<style>
+    *{
+    padding: 0;
+    margin: 0;
+    grid: flex;
+    box-sizing: border-box;
+    }
+    body{
+        background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);;
+        width: 100%;
+        height: 100%;
+        font-family: sans-serif;
+        color: white;
+        min-height: 100vh;
+        font-size: 2em;
+        justify-content: space-between;
+        align-items: center;
+    }
+    form input{
+        padding: 0.2rem;
+        border: solide 1px #FFFFFF;
+		border-radius: 5px;
+		
+    }
+    head{
+        font-size: 4em;
+        
+    }
+    button{
+        font-size: 15px;
+        padding:2.5px;
+
+    }
+    form button
+    {
+        cursor: pointer;
+        padding:0,0.5rem;
+        transition:all o.3s ease;
+    }
+    form button:hover {
+    background: #ff6f47;
+    color: white;
+    }
+    h2{
+        font-size:1em;
+        text-align:center;
+    }
+    .wraper{
+        width:60%;
+        height:100%;
+       
+        display: inline-bloc;
+        float: left;
+    }
+    p{
+font-size:14px;
+    }
+
+.wrapper{
+        width:20%;
+        height:100%;
+        display: inline-bloc;
+        float: left;
+    }
+</style>
+
+
+</head>
+<body>
+
+<div class="wrapper"></div>
+<dir class="wraper">
+<h2>A simple Chat bot</h2>
+<form method="POST">
+    <lable>Ask your question</lable>
+    <input name="text">
+    <button type="submit"text="submit">Submit</button>
+	{%for i in texss[::-1]%} 
+    
+    {% if i!="" %}
+        <p>{{i}}<p>
+    
+    {% endif %}
+   
+	
+{%endfor%} 
+</form>
+	</dir>
+    <div class="wrapper"></div>
+</body>

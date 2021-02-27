@@ -1,0 +1,111 @@
+import wikipedia as wk
+import sys
+import re
+import json
+from lib import *
+from lib2 import *
+from random import *
+from time import *
+#tell me about
+def chatbot():	
+    data = {"who are teachers": "I simple say god",
+			"who are you": "I'm your friend you can ask me questions and i try to answer them byut may not know all of them but sure learn it with you",
+			"do you have a teacher": "No, but you can be my teacher by just teaching me what I dont know",
+			"who old are you": "I was born when you ran the my program",
+			"do you have frinds": "Yes its you!!!!!",
+			"can you eat": "No I only take data as my food",
+			"why is teachers day celebrated": "The birth date of the second President of India, Sarvepalli Radhakrishnan, 5 September 1888, has been celebrated as Teacher's Day since 1962.",
+			"when is teachers day celebrated": "Globally, Teachers Day is celebrated on 5th October; in India, we celebrate it on 5th September from 1962 onwards.",
+			"who is the greatest teacher in india": "Your best teacher is your last mistake,” Kalam said.",
+			"who started teachers day in india": "Dr Sarvepalli Radhakrishnan said 'Instead of celebrating my birthday, it would be my proud privilege if September 5 is observed as Teachers Day' he said"
+			}
+    funcdict = {
+		# "riddle": riddle,
+		"find lowest common multiple": math_functions.LowestCommonMultiple,
+		"roll a dice": roll_a_dice,
+		"open file": open_file,
+		"subtract number": sub,
+        "wiki":info,
+		"toss a coin": toss,
+		"add numbers": add,
+		"search": search,
+		"give me some dumy text": dumy,
+		"dumy": dumy,
+		"help": helpx,
+		"find square": square,
+		"find square root": squareroot,
+		"time": date_time.time,
+		"date": date_time.date,
+		"encrypt": cryptography.encrypt,
+		"decrypt": cryptography.decrypt,
+		"find common factors": math_functions.commonfactors,
+		"find factors": math_functions.factors,
+		"isprime": math_functions.isPrime,
+		"find highest common factor": math_functions.highestCommonFactor,
+		"find multiples": math_functions.multiples,
+		"find nearest perfect square": math_functions.NearestPerfectSquare,
+		"is perfect square": math_functions.IsPerfectSquare,
+		"find lowest Form": math_functions.lowestForm,
+		"read": read_this
+	}
+    great = [
+		"Thankyou", "So nice of you", "I appreciate for your help", "thank you very much",
+			"I thank you from the bottom of my heart. Yes, I do have it", "accept my endless gratitude", "thanks a lot"]
+
+    say("Hi, I'm your friend you can ask me questions but not sure I can answer all ")
+    say("If you are enough having fun with me say 'stop'  ")
+    print("loading database")
+    tdata = load_database()
+    mainlist = [funcdict, data]
+    while True:
+        s = tell('say somthing')
+        i = re.sub("\s\s+", " ", s)
+        if i[-1]==" ":
+            i=i[:-1]
+        if i[0]==" ":
+            i=i[1:]
+        if i == "stop" or i == "s":
+            sys.exit()
+        
+        #no need 
+        if i == '':
+            say("you didnt enter anything")
+            continue
+        status = False
+        if i == "test":
+            for key, values in funcdict.items():
+                say(key)
+                values()
+        for data in mainlist:
+            if mainlist.index(data) == 0:
+                if data.get(i):
+                    data.get(i)()
+                    status = True
+            elif data.get(i):
+                say(data.get(i))
+                data.get(i)()
+                status = True
+        if status == False:
+            if tdata.get(i):
+                say(tdata.get(i))
+
+            else:
+                say(
+					"I dont know the answer can you help me!!, you can tell me the answer or say sorry")
+                a = tell("help me with answer :")
+                if a != "sorry":
+                    say(choice(great))
+                    tdata[i] = a
+                    save_database(data=tdata)
+                else:
+                    say("its ok")
+    review = tell("how was your experience?:")
+    path = find_database_path()
+    with open(path, "r") as jsonFile:
+        data = json.load(jsonFile)
+    data["user_review"].append(review)
+    with open(path, "w") as jsonFile:
+        json.dump(data, jsonFile, indent=4)
+    say("saving database")
+    save_database(data=tdata)
+    say(choice(great))
